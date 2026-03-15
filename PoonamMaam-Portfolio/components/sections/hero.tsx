@@ -53,8 +53,11 @@ export default function HeroSection() {
 
           {/* Professional Bio */}
           <div className="mb-8 pb-8" style={{ borderBottom: '1px solid #e5e5e5' }}>
-            <p className="text-base leading-relaxed" style={{ color: '#1c1c1c' }}>
-              Dr. Poonam Rani's research focuses on scalable AI systems, secure distributed architectures, and data-driven network analysis. She has supervised doctoral scholars and led funded research initiatives in emerging technologies.
+            <p className="text-base leading-relaxed mb-3" style={{ color: '#1c1c1c' }}>
+              Dr. Poonam Rani is an Associate Professor in the Department of Computer Science and Engineering at Netaji Subhas University of Technology (NSUT), New Delhi. Her research focuses on Artificial Intelligence, Blockchain Technology, Internet of Things (IoT), and Social Network Analysis.
+            </p>
+            <p className="text-base leading-relaxed" style={{ color: '#555' }}>
+              With more than a decade of academic and research experience, she has authored over 50 peer-reviewed publications in reputed international journals and conferences. She has supervised doctoral scholars and led funded research initiatives in emerging technologies.
             </p>
           </div>
 
@@ -62,19 +65,19 @@ export default function HeroSection() {
           <div className="mb-8 pb-8" style={{ borderBottom: '1px solid #e5e5e5' }}>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-6">
               <div className="text-center">
-                <div className="text-2xl font-bold mb-1" style={{ color: '#1c1c1c' }}>18</div>
+                <div className="text-2xl font-bold mb-1" style={{ color: '#1c1c1c' }}>14</div>
                 <div className="text-xs uppercase tracking-wider" style={{ color: '#555', letterSpacing: '0.05em' }}>h-index</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold mb-1" style={{ color: '#1c1c1c' }}>52+</div>
+                <div className="text-2xl font-bold mb-1" style={{ color: '#1c1c1c' }}>50+</div>
                 <div className="text-xs uppercase tracking-wider" style={{ color: '#555', letterSpacing: '0.05em' }}>Publications</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold mb-1" style={{ color: '#1c1c1c' }}>800+</div>
+                <div className="text-2xl font-bold mb-1" style={{ color: '#1c1c1c' }}>500+</div>
                 <div className="text-xs uppercase tracking-wider" style={{ color: '#555', letterSpacing: '0.05em' }}>Citations</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold mb-1" style={{ color: '#1c1c1c' }}>3</div>
+                <div className="text-2xl font-bold mb-1" style={{ color: '#1c1c1c' }}>20</div>
                 <div className="text-xs uppercase tracking-wider" style={{ color: '#555', letterSpacing: '0.05em' }}>Projects</div>
               </div>
               <div className="text-center">
@@ -128,37 +131,20 @@ export default function HeroSection() {
 
           {/* Academic Links */}
           <div className="flex flex-wrap gap-4 text-sm">
-            <a
-              href="#"
-              className="hover:underline"
-              style={{ color: '#1e3a5f' }}
-            >
-              Google Scholar
-            </a>
-            <span style={{ color: '#e5e5e5' }}>•</span>
-            <a
-              href="#"
-              className="hover:underline"
-              style={{ color: '#1e3a5f' }}
-            >
-              ResearchGate
-            </a>
-            <span style={{ color: '#e5e5e5' }}>•</span>
-            <a
-              href="#"
-              className="hover:underline"
-              style={{ color: '#1e3a5f' }}
-            >
-              LinkedIn
-            </a>
-            <span style={{ color: '#e5e5e5' }}>•</span>
-            <a
-              href="#"
-              className="hover:underline"
-              style={{ color: '#1e3a5f' }}
-            >
-              ORCID
-            </a>
+            {[
+              { name: 'Google Scholar', url: 'https://scholar.google.com/citations?user=_cDpLFAAAAAJ&hl=en' },
+              { name: 'ResearchGate', url: 'https://www.researchgate.net/profile/Poonam-Rani-10' },
+              { name: 'ORCID', url: 'https://orcid.org/0000-0001-5866-238X' },
+              { name: 'LinkedIn', url: 'https://www.linkedin.com/in/dr-poonam-rani-98998423b/' },
+              { name: 'DBLP', url: '#' }
+            ].map((link, i, arr) => (
+              <>
+                <a key={link.name} href={link.url} className="hover:underline" style={{ color: '#1e3a5f' }}>
+                  {link.name}
+                </a>
+                {i < arr.length - 1 && <span style={{ color: '#ccc' }}>•</span>}
+              </>
+            ))}
           </div>
         </div>
       </div>

@@ -6,20 +6,16 @@ import { Menu, X, GraduationCap, ChevronUp } from 'lucide-react'
 import HeroSection from '@/components/sections/hero'
 import AboutSection from '@/components/sections/about'
 import ContactSection from '@/components/sections/contact'
-import ResearchAreasSection from '@/components/sections/research-areas'
 import PublicationsSection from '@/components/sections/publications'
 import TeachingSection from '@/components/sections/teaching'
-import ProjectsSection from '@/components/sections/projects'
 import StudentsSection from '@/components/sections/students'
 import AchievementsSection from '@/components/sections/achievements'
 import Footer from '@/components/sections/footer'
 
 const navItems = [
   { name: 'About', href: '#about' },
-  { name: 'Research', href: '#research' },
   { name: 'Publications', href: '#publications' },
   { name: 'Teaching', href: '#teaching' },
-  { name: 'Projects', href: '#projects' },
   { name: 'Students', href: '#students' },
   { name: 'Achievements', href: '#achievements' },
   { name: 'Contact', href: '#contact' },
@@ -187,10 +183,8 @@ export default function Home() {
         {/* <p>hello</p> */}
         <HeroSection />
         <AboutSection />
-        <ResearchAreasSection />
         <PublicationsSection />
         <TeachingSection />
-        <ProjectsSection />
         <StudentsSection />
         <AchievementsSection />
         <ContactSection />

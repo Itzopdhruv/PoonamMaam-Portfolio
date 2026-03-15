@@ -24,9 +24,9 @@ export default function Footer() {
   ]
 
   const socialLinks = [
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-    { icon: BookOpen, href: '#', label: 'Google Scholar' },
-    { icon: Globe, href: '#', label: 'ResearchGate' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/dr-poonam-rani-98998423b/', label: 'LinkedIn' },
+    { icon: BookOpen, href: 'https://scholar.google.com/citations?user=_cDpLFAAAAAJ&hl=en', label: 'Google Scholar' },
+    { icon: Globe, href: 'https://www.researchgate.net/profile/Poonam-Rani-10', label: 'ResearchGate' },
   ]
 
   const scrollToTop = () => {
@@ -60,7 +60,7 @@ export default function Footer() {
               <p className="text-foreground/70 text-sm leading-relaxed mb-6">
                 Dedicated to excellence in research, teaching, and mentorship in Computer Science & Engineering at NSUT, New Delhi.
               </p>
-              
+
               {/* Social links */}
               <div className="flex gap-3">
                 {socialLinks.map((link, index) => {
@@ -88,8 +88,8 @@ export default function Footer() {
               <ul className="space-y-3">
                 {quickLinks.map((link, index) => (
                   <li key={index}>
-                    <Link 
-                      href={link.href} 
+                    <Link
+                      href={link.href}
                       className="text-foreground/70 hover:text-primary transition-colors text-sm flex items-center gap-2 group"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary transition-colors"></span>
@@ -161,11 +161,11 @@ export default function Footer() {
         <div className="border-t border-border py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-muted-foreground text-sm flex items-center gap-1">
-              © {currentYear} Dr. Poonam Rani. Made with 
-              <Heart className="w-4 h-4 text-red-500 inline animate-pulse" /> 
+              © {currentYear} Dr. Poonam Rani. Made with
+              <Heart className="w-4 h-4 text-red-500 inline animate-pulse" />
               for academic excellence.
             </p>
-            
+
             {/* Back to top button */}
             <button
               onClick={scrollToTop}

@@ -1,183 +1,208 @@
 'use client'
 
-import { Card } from '@/components/ui/card'
 import { useScrollAnimation } from '@/hooks/use-scroll-animation'
-import { BookOpen, Users, Award, GraduationCap, Lightbulb, Target, Code, Database, Brain, Network, Sparkles } from 'lucide-react'
+import {
+  BookOpen, Users, Award, GraduationCap, Lightbulb,
+  Target, Code, Database, Brain, Network, FileText, ExternalLink
+} from 'lucide-react'
+
+const NAVY = '#0F4C81'
+const TEAL = '#2CA6A4'
+
+// ─── Data ────────────────────────────────────────────────────────────────────
+
+const ugCourses = [
+  {
+    code: 'CSE201',
+    name: 'Data Structures & Algorithms',
+    semester: 'Even Semester',
+    students: '~120 per year',
+    icon: Code,
+    topics: ['Arrays & Linked Lists', 'Trees & Graphs', 'Dynamic Programming', 'Sorting Algorithms'],
+  },
+  {
+    code: 'CSE301',
+    name: 'Database Management Systems',
+    semester: 'Odd Semester',
+    students: '~100 per year',
+    icon: Database,
+    topics: ['SQL & Query Optimization', 'Normalization', 'Transaction Management', 'NoSQL Databases'],
+  },
+  {
+    code: 'CSE210',
+    name: 'Object Oriented Programming',
+    semester: 'Odd Semester',
+    students: '~110 per year',
+    icon: Code,
+    topics: ['OOP Principles', 'Design Patterns', 'Java & C++', 'Software Design'],
+  },
+]
+
+const pgCourses = [
+  {
+    code: 'CSE504',
+    name: 'Machine Learning',
+    semester: 'Even Semester',
+    students: '~40 per year',
+    icon: Brain,
+    topics: ['Supervised Learning', 'Neural Networks', 'Deep Learning', 'Reinforcement Learning'],
+  },
+  {
+    code: 'CSE502',
+    name: 'Artificial Intelligence',
+    semester: 'Odd Semester',
+    students: '~45 per year',
+    icon: Lightbulb,
+    topics: ['Search Algorithms', 'Knowledge Representation', 'Expert Systems', 'NLP Fundamentals'],
+  },
+  {
+    code: 'CSE510',
+    name: 'Social Network Analysis',
+    semester: 'Even Semester',
+    students: '~35 per year',
+    icon: Network,
+    topics: ['Graph Theory', 'Community Detection', 'Centrality Measures', 'Link Prediction'],
+  },
+  {
+    code: 'CSE515',
+    name: 'Distributed Systems',
+    semester: 'Odd Semester',
+    students: '~38 per year',
+    icon: Target,
+    topics: ['Consensus Protocols', 'CAP Theorem', 'Fault Tolerance', 'Blockchain Applications'],
+  },
+  {
+    code: 'CSE612',
+    name: 'Blockchain Technology',
+    semester: 'Even Semester',
+    students: '~45 per year',
+    icon: Code,
+    topics: ['Smart Contracts', 'Cryptography', 'Consensus Algorithms', 'Ethereum & Web3'],
+  },
+]
+
+
+
+// ─── Course Card ──────────────────────────────────────────────────────────────
+
+function CourseCard({ course }: { course: typeof pgCourses[0] }) {
+  const Icon = course.icon
+  return (
+    <div
+      className="bg-white border border-gray-200 rounded-lg p-5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+      style={{ borderLeft: `3px solid ${NAVY}` }}
+    >
+      <div className="flex items-start justify-between mb-3">
+        <div
+          className="w-9 h-9 rounded-md flex items-center justify-center flex-shrink-0"
+          style={{ backgroundColor: '#eef3f9' }}
+        >
+          <Icon className="w-5 h-5" style={{ color: NAVY }} />
+        </div>
+        <span className="text-xs font-bold tracking-wider" style={{ color: TEAL }}>{course.code}</span>
+      </div>
+
+      <h4 className="text-sm font-bold mb-1 leading-snug" style={{ color: '#1a1a1a' }}>{course.name}</h4>
+
+      <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-gray-500 mb-3">
+        <span>{course.semester}</span>
+        <span className="text-gray-300">·</span>
+        <span>{course.students}</span>
+      </div>
+
+      <div className="flex flex-wrap gap-1.5">
+        {course.topics.map((t, i) => (
+          <span
+            key={i}
+            className="text-xs px-2 py-0.5 rounded"
+            style={{ backgroundColor: '#f0f4f8', color: '#4b5e7a' }}
+          >
+            {t}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ─── Main Section ─────────────────────────────────────────────────────────────
 
 export default function TeachingSection() {
   const { ref, isVisible } = useScrollAnimation()
 
-  const courses = [
-    { name: 'Data Structures & Algorithms', level: 'Undergraduate', icon: Code },
-    { name: 'Machine Learning', level: 'Graduate', icon: Brain },
-    { name: 'Artificial Intelligence', level: 'Graduate', icon: Lightbulb },
-    { name: 'Database Management Systems', level: 'Undergraduate', icon: Database },
-    { name: 'Social Network Analysis', level: 'Graduate', icon: Network },
-    { name: 'Distributed Systems', level: 'Graduate', icon: Target },
-  ]
-
-  // const teachingInfo = [
-  //   // {
-  //   //   icon: BookOpen,
-  //   //   title: 'Academic Courses',
-  //   //   description: 'Teaching core computer science subjects with emphasis on practical applications and industry relevance',
-  //   //   gradient: 'from-blue-500 to-cyan-500',
-  //   //   stats: { value: '6+', label: 'Courses' }
-  //   // },
-  //   // {
-  //   //   icon: Users,
-  //   //   title: 'Teaching Philosophy',
-  //   //   description: 'Interactive learning environment combining theoretical foundations with hands-on projects and real-world case studies',
-  //   //   gradient: 'from-purple-500 to-pink-500',
-  //   //   stats: { value: '100+', label: 'Students/Year' }
-  //   // },
-  //   // {
-  //   //   icon: Award,
-  //   //   title: 'Mentorship Excellence',
-  //   //   description: 'Dedicated guidance for student research, career development, and academic growth through personalized attention',
-  //   //   gradient: 'from-amber-500 to-orange-500',
-  //   //   stats: { value: '10+', label: 'Years' }
-  //   // }
-  // ]
-
-  // const philosophyPoints = [
-  //   { icon: Target, text: 'Bridging theory with practical industry applications' },
-  //   { icon: Lightbulb, text: 'Fostering innovative thinking and problem-solving skills' },
-  //   { icon: Users, text: 'Collaborative learning through group projects and discussions' },
-  //   { icon: GraduationCap, text: 'Preparing students for research excellence and industry careers' },
-  // ]
-
   return (
-    <section id="teaching" className="relative py-24 md:py-32 overflow-hidden" ref={ref}>
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-muted/20 via-background to-muted/20"></div>
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
-      
-      {/* Decorative elements */}
-      <div className="absolute top-32 right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-32 left-20 w-72 h-72 bg-accent/5 rounded-full blur-3xl"></div>
+    <section id="teaching" className="relative py-20 md:py-28 bg-gray-50" ref={ref}>
+      <div className="absolute top-0 left-0 w-full h-px bg-gray-200" />
+      <div className="absolute bottom-0 left-0 w-full h-px bg-gray-200" />
 
-      <div className="relative container mx-auto px-4 md:px-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Section header */}
-          <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
-              <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-sm font-semibold text-primary uppercase tracking-wider">Education</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground mb-6">
-              Teaching & <span className="gradient-text">Mentorship</span>
-            </h2>
-            <div className="w-24 h-1.5 bg-gradient-to-r from-primary via-accent to-secondary rounded-full mx-auto mb-6"></div>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Nurturing the next generation of computer science professionals through comprehensive education and research guidance
-            </p>
-          </div>
+      <div className="container mx-auto px-4 md:px-8 max-w-5xl">
 
-          {/* Teaching info cards */}
-          {/* <div className="grid md:grid-cols-3 gap-6 mb-16">
-            {teachingInfo.map((section, index) => {
-              const Icon = section.icon
-              return (
-                <div
-                  key={index}
-                  className={`group relative transition-all duration-700 ${
-                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                  }`}
-                  style={{ transitionDelay: `${200 + index * 100}ms` }}
-                >
-                  <div className={`absolute -inset-0.5 bg-gradient-to-r ${section.gradient} rounded-3xl blur opacity-0 group-hover:opacity-40 transition-opacity duration-500`}></div>
-                  <Card className="relative h-full p-8 bg-card/80 backdrop-blur-sm rounded-3xl border border-border hover:border-transparent transition-all duration-300 hover-lift">
-                    <div className="flex items-start justify-between mb-6">
-                      <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${section.gradient} p-3.5 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                        <Icon className="w-full h-full text-white" />
-                      </div>
-                      <div className="text-right">
-                        <span className="text-3xl font-bold gradient-text">{section.stats.value}</span>
-                        <p className="text-xs text-muted-foreground">{section.stats.label}</p>
-                      </div>
-                    </div>
-                    
-                    <h3 className="text-2xl font-display font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
-                      {section.title}
-                    </h3>
-                    <p className="text-foreground/70 leading-relaxed">
-                      {section.description}
-                    </p>
-                  </Card>
-                </div>
-              )
-            })}
-          </div> */}
-
-          {/* Courses taught */}
-          <div className={`mb-16 transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <h3 className="text-2xl font-display font-bold text-foreground mb-8 text-center">
-              Courses Taught
-            </h3>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {courses.map((course, index) => {
-                const Icon = course.icon
-                return (
-                  <div
-                    key={index}
-                    className="group p-5 rounded-2xl bg-card border border-border hover:border-primary/30 hover:bg-primary/5 transition-all duration-300 hover-lift"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                        <Icon className="w-6 h-6 text-primary" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">
-                          {course.name}
-                        </h4>
-                        <p className="text-sm text-muted-foreground">{course.level}</p>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Teaching philosophy
-          <div className={`transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-primary via-accent to-secondary rounded-3xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
-              <div className="relative p-8 md:p-12 bg-card rounded-3xl border border-border">
-                <div className="flex flex-col lg:flex-row lg:items-center gap-8">
-                  <div className="lg:w-1/2">
-                    <h3 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-4">
-                      Teaching Philosophy
-                    </h3>
-                    <p className="text-lg text-foreground/70 leading-relaxed mb-6">
-                      Education is not just about transferring knowledge—it's about inspiring curiosity, 
-                      fostering critical thinking, and empowering students to become innovators and 
-                      problem-solvers who can tackle tomorrow's challenges.
-                    </p>
-                  </div>
-                  
-                  <div className="lg:w-1/2 grid sm:grid-cols-2 gap-4">
-                    {philosophyPoints.map((point, index) => {
-                      const Icon = point.icon
-                      return (
-                        <div 
-                          key={index}
-                          className="flex items-start gap-3 p-4 rounded-xl bg-muted/50 hover:bg-primary/5 transition-colors"
-                        >
-                          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                            <Icon className="w-4 h-4 text-primary" />
-                          </div>
-                          <p className="text-sm text-foreground/80 leading-snug">{point.text}</p>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
+        {/* ── Section Header ─────────────────────────────────── */}
+        <div className={`mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] mb-3" style={{ color: TEAL }}>Education</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ fontFamily: 'Georgia, "Times New Roman", serif', color: '#1a1a1a' }}>
+            Teaching & Mentorship
+          </h2>
+          <div className="w-12 h-0.5 mb-5" style={{ backgroundColor: NAVY }} />
+          <p className="text-base text-gray-600 max-w-2xl leading-relaxed">
+            Dedicated to advancing computer science education through rigorous teaching, research mentorship, and collaborative student development across undergraduate and postgraduate programmes.
+          </p>
         </div>
+
+        {/* ── Teaching Stats ─────────────────────────────────── */}
+        <div className={`mb-12 grid grid-cols-2 sm:grid-cols-4 gap-4 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          {[
+            { icon: BookOpen, value: '10+', label: 'Years Teaching' },
+            { icon: Users, value: '500+', label: 'Students Mentored' },
+            { icon: GraduationCap, value: '7', label: 'Courses Developed' },
+            { icon: Award, value: '10+', label: 'Theses Supervised' },
+          ].map((s, i) => {
+            const Icon = s.icon
+            return (
+              <div key={i} className="bg-white border border-gray-200 rounded-lg p-4 text-center">
+                <div className="w-8 h-8 rounded-md mx-auto mb-2 flex items-center justify-center" style={{ backgroundColor: '#eef3f9' }}>
+                  <Icon className="w-4 h-4" style={{ color: NAVY }} />
+                </div>
+                <p className="text-2xl font-bold" style={{ color: NAVY }}>{s.value}</p>
+                <p className="text-xs text-gray-500 mt-0.5">{s.label}</p>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* ── Teaching Philosophy ────────────────────────────── */}
+        <div className={`mb-12 transition-all duration-700 delay-150 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <blockquote
+            className="pl-5 py-1 text-gray-700 leading-relaxed text-base italic"
+            style={{ borderLeft: `3px solid ${TEAL}` }}
+          >
+            <p className="mb-2">
+              "My teaching philosophy focuses on bridging theoretical foundations with practical applications.
+              I encourage students to develop strong analytical thinking and problem-solving skills through
+              project-based learning, collaborative exploration, and exposure to current research problems."
+            </p>
+            <footer className="text-sm not-italic font-semibold text-gray-500">— Teaching Philosophy</footer>
+          </blockquote>
+        </div>
+
+        <div className="border-t border-gray-200 mb-10" />
+
+        {/* ── Courses ──────────────────────────── */}
+        <div className={`mb-12 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className="flex items-center gap-3 mb-5">
+            <h3 className="text-base font-bold uppercase tracking-wider" style={{ color: NAVY, fontFamily: 'Georgia, serif' }}>
+              Courses
+            </h3>
+            <div className="flex-1 h-px bg-gray-200" />
+            <span className="text-xs text-gray-400">{pgCourses.length} courses</span>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {pgCourses.map((c, i) => <CourseCard key={i} course={c} />)}
+          </div>
+        </div>
+
+
+
       </div>
     </section>
   )
