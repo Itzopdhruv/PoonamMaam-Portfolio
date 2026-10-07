@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { ChevronDown } from 'lucide-react'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 export default function HeroSection() {
   const [mounted, setMounted] = useState(false)
@@ -138,12 +138,12 @@ export default function HeroSection() {
               { name: 'LinkedIn', url: 'https://www.linkedin.com/in/dr-poonam-rani-98998423b/' },
               { name: 'DBLP', url: '#' }
             ].map((link, i, arr) => (
-              <>
-                <a key={link.name} href={link.url} className="hover:underline" style={{ color: '#1e3a5f' }}>
+              <Fragment key={link.name}>
+                <a href={link.url} className="hover:underline" style={{ color: '#1e3a5f' }}>
                   {link.name}
                 </a>
                 {i < arr.length - 1 && <span style={{ color: '#ccc' }}>•</span>}
-              </>
+              </Fragment>
             ))}
           </div>
         </div>
