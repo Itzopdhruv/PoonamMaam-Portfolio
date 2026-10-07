@@ -1,200 +1,163 @@
 'use client'
 
-import { useScrollAnimation } from '@/hooks/use-scroll-animation'
-import { BookOpen, FlaskConical, Users } from 'lucide-react'
+import Image from 'next/image'
+import { GraduationCap, Briefcase, BadgeCheck, MapPin, Landmark, Users, HeartHandshake, Mic2 } from 'lucide-react'
+import { Reveal } from '@/components/fx/reveal'
+import TiltCard from '@/components/fx/tilt-card'
+import { ACADEMIC_SERVICE, MEMBERSHIPS, PROFILE, ROLES } from '@/lib/profile'
 
-const ACCENT = '#0F4C81'
-const TEAL = '#2CA6A4'
+const FACTS = [
+  { icon: GraduationCap, label: 'Ph.D.', value: 'Computer Engineering, University of Delhi' },
+  { icon: Briefcase, label: 'Experience', value: '18+ years of teaching & research' },
+  { icon: BadgeCheck, label: 'Membership', value: 'Senior Member IEEE · IETE · ISTE' },
+  { icon: MapPin, label: 'Office', value: `${PROFILE.office.room}, CSE, NSUT` },
+]
 
 export default function AboutSection() {
-  const { ref, isVisible } = useScrollAnimation()
-
-  const highlights = [
-    {
-      icon: FlaskConical,
-      title: 'Research Areas',
-      description:
-        'Artificial Intelligence, Blockchain Systems, Internet of Things (IoT), Social Network Analysis, and Soft Computing — with applications across healthcare, security, and distributed systems.',
-    },
-    {
-      icon: BookOpen,
-      title: 'Publications & Conferences',
-      description:
-        'Author of 50+ peer-reviewed papers published in reputed international journals and conferences including IEEE, Springer, and Elsevier.',
-    },
-    {
-      icon: Users,
-      title: 'Academic Service',
-      description:
-        'Serves as reviewer for international journals, mentors postgraduate and doctoral research students, and actively contributes to academic collaborations and institutional initiatives.',
-    },
-  ]
-
   return (
-    <section id="about" className="relative py-20 md:py-28 bg-gray-50" ref={ref}>
-      {/* Top / Bottom dividers */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gray-200" />
-      <div className="absolute bottom-0 left-0 w-full h-px bg-gray-200" />
+    <section id="about" className="relative overflow-hidden bg-white py-24 md:py-32">
+      <div className="absolute -right-40 top-20 h-96 w-96 rounded-full bg-amber-100/60 blur-3xl" />
+      <div className="absolute -left-40 bottom-20 h-96 w-96 rounded-full bg-blue-100/60 blur-3xl" />
 
-      <div className="container mx-auto px-4 md:px-8 max-w-6xl">
-
-        {/* Section Header */}
-        <div
-          className={`mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
-        >
-          <p className="text-xs font-semibold uppercase tracking-[0.15em] mb-3" style={{ color: TEAL }}>
-            Faculty Profile
-          </p>
-          <h2
-            className="text-3xl md:text-4xl font-bold mb-4"
-            style={{ fontFamily: 'Georgia, "Times New Roman", serif', color: '#1a1a1a' }}
-          >
-            Academic Profile &amp; Research Contributions
-          </h2>
-          <div className="w-12 h-0.5" style={{ backgroundColor: ACCENT }} />
-        </div>
-
-        {/* Main Content Grid */}
-        <div
-          className={`grid lg:grid-cols-2 gap-14 items-start mb-16 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
-        >
-          {/* Biography */}
-          <div className="space-y-5">
-            <p className="text-base text-gray-700 leading-relaxed">
-              Dr. Poonam Rani is an Associate Professor in the{' '}
-              <span className="font-semibold text-gray-900">
-                Department of Computer Science and Engineering
-              </span>{' '}
-              at{' '}
-              <span className="font-semibold text-gray-900">
-                Netaji Subhas University of Technology (NSUT), New Delhi
-              </span>
-              . Her research focuses on Artificial Intelligence, Blockchain Technology, Internet of Things (IoT),
-              and Social Network Analysis.
-            </p>
-            <p className="text-base text-gray-700 leading-relaxed">
-              With more than a decade of academic and research experience, she has authored over{' '}
-              <span className="font-semibold text-gray-900">50+ peer-reviewed publications</span> in reputed
-              international journals and conferences including IEEE, Springer, and Elsevier. She has supervised
-              doctoral scholars and led funded research initiatives in emerging technologies.
-            </p>
-            <p className="text-base text-gray-700 leading-relaxed">
-              Her work aims to bridge the gap between theoretical foundations and practical applications,
-              contributing solutions that address real-world challenges in healthcare, cybersecurity, and
-              network intelligence.
-            </p>
-
-            {/* Clean stats row */}
-            <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-gray-200">
-              {[
-                { value: '50+', label: 'Publications' },
-                { value: '500+', label: 'Citations' },
-                { value: '14', label: 'h-index' },
-                { value: '10+', label: 'Yrs. Experience' },
-              ].map((s, i) => (
-                <div key={i} className="text-center">
-                  <p className="text-2xl font-bold" style={{ color: ACCENT }}>
-                    {s.value}
-                  </p>
-                  <p className="text-xs text-gray-500 uppercase tracking-wider mt-0.5">{s.label}</p>
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid items-center gap-14 lg:grid-cols-[0.8fr_1.2fr]">
+          {/* Portrait */}
+          <Reveal from="left">
+            <div className="relative mx-auto max-w-sm">
+              <div className="absolute -inset-3 rotate-3 rounded-[2rem] bg-gradient-to-br from-amber-300 via-orange-300 to-rose-300 opacity-70" />
+              <div className="absolute -inset-3 -rotate-2 rounded-[2rem] border-2 border-dashed border-[#0b2545]/30" />
+              <TiltCard className="aspect-[3/4]" max={8}>
+                <div className="relative h-full w-full overflow-hidden rounded-[1.75rem] shadow-2xl">
+                  <Image src="/gallery/portrait.webp" alt="Portrait of Dr. Poonam Rani" fill quality={90} sizes="(min-width: 1024px) 30vw, 80vw" className="object-cover object-top" />
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Quote Block */}
-          <div>
-            <blockquote
-              className="border-l-4 pl-6 py-2"
-              style={{ borderLeftColor: TEAL }}
-            >
-              <p
-                className="text-lg italic text-gray-700 leading-relaxed mb-5"
-                style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
-              >
-                &ldquo;Research is the systematic pursuit of knowledge, driven by curiosity and the desire to solve
-                real-world challenges through innovation.&rdquo;
-              </p>
-              <footer className="text-sm text-gray-500">
-                <span className="font-semibold text-gray-800">Dr. Poonam Rani</span>
-                <br />
-                Associate Professor, Department of CSE, NSUT Delhi
-              </footer>
-            </blockquote>
-
-            {/* Academic links in quote block */}
-            <div className="mt-6 pl-6 flex flex-wrap gap-4 text-sm">
-              {[
-                { name: 'Google Scholar', url: 'https://scholar.google.com/citations?user=_cDpLFAAAAAJ&hl=en' },
-                { name: 'ResearchGate', url: 'https://www.researchgate.net/profile/Poonam-Rani-10' },
-                { name: 'ORCID', url: 'https://orcid.org/0000-0001-5866-238X' },
-                { name: 'LinkedIn', url: 'https://www.linkedin.com/in/dr-poonam-rani-98998423b/' },
-                { name: 'DBLP', url: '#' }
-              ].map((link) => (
-                <a
-                  key={link.name}
-                  href={link.url}
-                  className="font-medium hover:underline transition-colors"
-                  style={{ color: ACCENT }}
-                >
-                  {link.name}
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Academic highlight cards */}
-        <div
-          className={`grid md:grid-cols-3 gap-6 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
-        >
-          {highlights.map((item, index) => {
-            const Icon = item.icon
-            return (
-              <div
-                key={index}
-                className="group bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
-                style={{ borderTop: `3px solid ${ACCENT}` }}
-              >
-                <div
-                  className="w-10 h-10 rounded-md flex items-center justify-center mb-4"
-                  style={{ backgroundColor: '#eef3f9' }}
-                >
-                  <Icon className="w-5 h-5" style={{ color: ACCENT }} />
-                </div>
-                <h3
-                  className="text-base font-bold mb-2"
-                  style={{ color: '#1a1a1a', fontFamily: 'Georgia, "Times New Roman", serif' }}
-                >
-                  {item.title}
-                </h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{item.description}</p>
+              </TiltCard>
+              <div className="absolute -bottom-6 -right-4 rounded-2xl bg-[#0b2545] px-5 py-4 text-white shadow-xl animate-float">
+                <p className="font-display text-3xl font-bold text-amber-300">18+</p>
+                <p className="text-xs text-blue-100/80">Years in academia</p>
               </div>
-            )
-          })}
+            </div>
+          </Reveal>
+
+          {/* Bio */}
+          <div>
+            <Reveal>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-teal-600">About</p>
+              <h2 className="font-display text-4xl font-bold leading-tight text-[#0b2545] sm:text-5xl">
+                Educator, researcher <span className="text-amber-500">&amp;</span> mentor
+              </h2>
+            </Reveal>
+            <Reveal delay={100}>
+              <div className="mt-6 space-y-4 text-base leading-relaxed text-slate-600">
+                <p>
+                  <strong className="text-slate-900">{PROFILE.name}</strong> is an Associate Professor in the Department of Computer
+                  Science and Engineering at Netaji Subhas University of Technology (NSUT), Main Campus, Dwarka, New Delhi. She
+                  received her Ph.D. in Computer Engineering from the University of Delhi and has more than 18 years of teaching
+                  and research experience.
+                </p>
+                <p>
+                  Her research interests include Quantum Computing, Blockchain, the Internet of Things, Social Network Analysis,
+                  Soft Computing and Machine Learning. She has published more than 60 papers in reputed international journals,
+                  including SCIE-indexed journals, and in international Scopus-indexed conferences and book chapters. Several of
+                  her papers have received commendable research awards.
+                </p>
+                <p>
+                  She is regularly invited as a Faculty Resource Person, Session Chair, Reviewer and TPC member for FDPs,
+                  conferences and journals. She has guided several B.Tech. and M.Tech. major projects and currently teaches and
+                  supervises Ph.D. scholars in the CSE department of NSUT.
+                </p>
+              </div>
+            </Reveal>
+
+            <div className="mt-8 grid gap-3 sm:grid-cols-2">
+              {FACTS.map((f, i) => (
+                <Reveal key={f.label} delay={150 + i * 80}>
+                  <div className="group flex items-start gap-3 rounded-2xl border border-slate-200 bg-white/80 p-4 backdrop-blur transition-all hover:-translate-y-1 hover:border-amber-300 hover:shadow-lg">
+                    <div className="rounded-xl bg-[#0b2545] p-2.5 text-amber-300 transition-transform group-hover:rotate-6 group-hover:scale-110">
+                      <f.icon className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">{f.label}</p>
+                      <p className="text-sm font-medium text-slate-800">{f.value}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
         </div>
 
-        {/* Teaching Philosophy */}
-        <div
-          className={`mt-14 p-8 md:p-10 bg-white border border-gray-200 rounded-lg transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
-        >
-          <h3
-            className="text-xl font-bold mb-4"
-            style={{ color: '#1a1a1a', fontFamily: 'Georgia, "Times New Roman", serif' }}
-          >
-            Teaching Philosophy
-          </h3>
-          <div className="w-10 h-0.5 mb-5" style={{ backgroundColor: TEAL }} />
-          <p className="text-base text-gray-700 leading-relaxed max-w-3xl">
-            Teaching is not only about delivering knowledge but also about nurturing curiosity, critical thinking, and
-            innovation. My teaching philosophy emphasizes a strong balance between theoretical foundations and practical
-            applications. Through research-driven learning, collaborative projects, and hands-on experimentation, I aim
-            to prepare students to address complex technological challenges and contribute meaningfully to society.
-          </p>
+        {/* Leadership & Service */}
+        <div id="service" className="mt-28 scroll-mt-24">
+          <Reveal>
+            <div className="mb-10 text-center">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-teal-600">Leadership &amp; Service</p>
+              <h3 className="font-display text-3xl font-bold text-[#0b2545] sm:text-4xl">Beyond the classroom</h3>
+            </div>
+          </Reveal>
+
+          <div className="grid gap-6 lg:grid-cols-3">
+            <Reveal delay={0} className="lg:row-span-2">
+              <div className="h-full rounded-3xl bg-gradient-to-br from-[#0b2545] to-[#13315c] p-7 text-white shadow-xl">
+                <div className="mb-5 flex items-center gap-3">
+                  <Landmark className="h-6 w-6 text-amber-300" />
+                  <h4 className="font-display text-xl font-semibold">Institutional Roles at NSUT</h4>
+                </div>
+                <ul className="space-y-3">
+                  {ROLES.map((r) => (
+                    <li key={r} className="flex gap-3 rounded-xl bg-white/5 px-4 py-3 text-sm transition-colors hover:bg-white/10">
+                      <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-amber-300" />
+                      {r}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+
+            <Reveal delay={100} className="lg:col-span-2">
+              <div className="h-full rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
+                <div className="mb-5 flex items-center gap-3">
+                  <Users className="h-6 w-6 text-teal-600" />
+                  <h4 className="font-display text-xl font-semibold text-[#0b2545]">Professional Memberships</h4>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  {MEMBERSHIPS.map((m) => (
+                    <span key={m} className="rounded-full border border-teal-200 bg-teal-50 px-4 py-2 text-sm font-medium text-teal-800 transition-transform hover:scale-105">
+                      {m}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={150}>
+              <div className="h-full rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
+                <div className="mb-4 flex items-center gap-3">
+                  <Mic2 className="h-6 w-6 text-blue-600" />
+                  <h4 className="font-display text-xl font-semibold text-[#0b2545]">Academic Service</h4>
+                </div>
+                <ul className="space-y-2 text-sm text-slate-600">
+                  {ACADEMIC_SERVICE.map((s) => (
+                    <li key={s} className="flex gap-2">
+                      <span className="text-blue-500">▹</span>
+                      {s}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+
+            <Reveal delay={200}>
+              <div className="h-full rounded-3xl border border-rose-200 bg-gradient-to-br from-rose-50 to-amber-50 p-7 shadow-sm">
+                <div className="mb-4 flex items-center gap-3">
+                  <HeartHandshake className="h-6 w-6 text-rose-500 animate-heartbeat" />
+                  <h4 className="font-display text-xl font-semibold text-[#0b2545]">Social Commitment</h4>
+                </div>
+                <p className="text-sm leading-relaxed text-slate-600">
+                  A regular blood donor, she has donated blood several times for social welfare.
+                </p>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </div>
     </section>

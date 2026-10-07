@@ -1,130 +1,99 @@
 'use client'
 
-import { useScrollAnimation } from '@/hooks/use-scroll-animation'
-import { Phone, Mail, MapPin, ExternalLink, Linkedin, Globe, BookOpen } from 'lucide-react'
-
-const NAVY = '#0F4C81'
-const TEAL = '#2CA6A4'
+import { useState } from 'react'
+import { Mail, Phone, MapPin, ExternalLink, Copy, Check, DoorOpen } from 'lucide-react'
+import { Reveal } from '@/components/fx/reveal'
+import { PROFILE, PROFILE_LINKS } from '@/lib/profile'
 
 export default function ContactSection() {
-  const { ref, isVisible } = useScrollAnimation()
+  const [copied, setCopied] = useState(false)
 
-  const socialLinks = [
-    { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/dr-poonam-rani-98998423b/' },
-    { icon: BookOpen, label: 'ORCID', href: 'https://orcid.org/0000-0001-5866-238X' },
-    { icon: Globe, label: 'ResearchGate', href: 'https://www.researchgate.net/profile/Poonam-Rani-10' },
-    { icon: ExternalLink, label: 'NSUT Profile', href: 'https://www.nsut.ac.in/en/node/255' }
-  ]
+  const copyEmail = () => {
+    navigator.clipboard.writeText(PROFILE.email)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   return (
-    <section id="contact" className="relative py-20 md:py-28 bg-white" ref={ref}>
-      <div className="absolute top-0 left-0 w-full h-px bg-gray-200" />
+    <section id="contact" className="relative overflow-hidden bg-[#071a33] py-24 text-white md:py-32">
+      <div className="absolute -left-40 top-0 h-96 w-96 rounded-full bg-blue-600/20 blur-[120px]" />
+      <div className="absolute -right-40 bottom-0 h-96 w-96 rounded-full bg-amber-500/15 blur-[120px]" />
 
-      <div className="container mx-auto px-4 md:px-8 max-w-5xl">
-        <div className="grid md:grid-cols-2 gap-12 md:gap-20">
-
-          {/* ── Left Column: Contact Text & Direct ──────────────── */}
-          <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <p className="text-xs font-semibold uppercase tracking-[0.15em] mb-3" style={{ color: TEAL }}>Get in Touch</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ fontFamily: 'Georgia, "Times New Roman", serif', color: '#1a1a1a' }}>
-              Contact Information
-            </h2>
-            <div className="w-12 h-0.5 mb-6" style={{ backgroundColor: NAVY }} />
-
-            <p className="text-base text-gray-600 leading-relaxed mb-10">
-              I welcome inquiries regarding research collaborations, academic speaking engagements,
-              M.Tech/PhD supervision, and professional consulting in the areas of AI,
-              Blockhain, IoT, and Social Network Analysis.
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <Reveal>
+          <div className="mb-14 max-w-2xl">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">Get in touch</p>
+            <h2 className="font-display text-4xl font-bold sm:text-5xl">Contact</h2>
+            <p className="mt-4 text-blue-100/70">
+              For research collaborations, Ph.D. supervision, invited talks and academic enquiries in Quantum Computing, AI,
+              Blockchain, IoT and Social Network Analysis.
             </p>
-
-            <div className="space-y-6">
-              {/* Email */}
-              <div className="flex items-start gap-4">
-                <div className="mt-1 p-2 bg-gray-50 border border-gray-200 rounded-md">
-                  <Mail className="w-5 h-5" style={{ color: NAVY }} />
-                </div>
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-0.5">Primary Email</p>
-                  <a href="mailto:poonam.rani@nsut.ac.in" className="text-lg font-bold text-gray-900 hover:text-gray-600 transition-colors">
-                    poonam.rani@nsut.ac.in
-                  </a>
-                  <p className="text-sm text-gray-500 mt-1">For all academic and official inquiries</p>
-                </div>
-              </div>
-
-              {/* Phone */}
-              <div className="flex items-start gap-4">
-                <div className="mt-1 p-2 bg-gray-50 border border-gray-200 rounded-md">
-                  <Phone className="w-5 h-5" style={{ color: NAVY }} />
-                </div>
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-0.5">Office Phone</p>
-                  <a href="tel:+911125000051" className="text-lg font-bold text-gray-900 hover:text-gray-600 transition-colors">
-                    011 - 25000051
-                  </a>
-                  <p className="text-sm text-gray-500 mt-1">Office Hours: Mon-Fri, 9:00 AM – 5:00 PM</p>
-                </div>
-              </div>
-            </div>
           </div>
+        </Reveal>
 
-          {/* ── Right Column: Location & Networks ────────────────── */}
-          <div className={`transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-
-            {/* Location Card */}
-            <div className="p-8 bg-gray-50 border border-gray-200 rounded-xl mb-8">
-              <div className="flex items-center gap-3 mb-4">
-                <MapPin className="w-6 h-6" style={{ color: TEAL }} />
-                <h3 className="text-xl font-bold" style={{ color: NAVY, fontFamily: 'Georgia, serif' }}>
-                  Office Location
-                </h3>
-              </div>
-              <div className="pl-9 space-y-1 text-gray-700">
-                <p className="font-bold text-gray-900">Department of Computer Science & Engineering</p>
-                <p>Netaji Subhas University of Technology (NSUT)</p>
-                <p>Sector 3, Dwarka</p>
-                <p>New Delhi 110078, India</p>
-
-                <a
-                  href="https://maps.google.com/?q=NSUT+Delhi"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 mt-4 text-sm font-bold transition-opacity hover:opacity-80"
-                  style={{ color: TEAL }}
-                >
-                  View on Google Maps <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              </div>
+        <div className="grid gap-6 lg:grid-cols-3">
+          <Reveal delay={0}>
+            <div className="group h-full rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur transition-all hover:-translate-y-1 hover:border-amber-300/50">
+              <Mail className="h-7 w-7 text-amber-300" />
+              <p className="mt-5 text-xs font-semibold uppercase tracking-wider text-blue-200/60">Email</p>
+              <a href={`mailto:${PROFILE.email}`} className="mt-1 block break-all font-display text-xl font-semibold hover:text-amber-300">
+                {PROFILE.email}
+              </a>
+              <button onClick={copyEmail} className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-1.5 text-xs text-blue-100/80 transition-colors hover:bg-white/10">
+                {copied ? <Check className="h-3.5 w-3.5 text-green-400" /> : <Copy className="h-3.5 w-3.5" />}
+                {copied ? 'Copied' : 'Copy email'}
+              </button>
             </div>
+          </Reveal>
 
-            {/* Professional Networks */}
-            <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-4">Professional Networks</p>
-              <div className="grid grid-cols-2 gap-3">
-                {socialLinks.map((link, i) => {
-                  const Icon = link.icon
-                  return (
-                    <a
-                      key={i}
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg hover:border-gray-300 hover:shadow-sm transition-all"
-                    >
-                      <div className="p-1.5 bg-gray-50 rounded text-gray-500 group-hover:text-gray-900 transition-colors">
-                        <Icon className="w-4 h-4" />
-                      </div>
-                      <span className="text-sm font-bold text-gray-700 group-hover:text-gray-900 transition-colors">
-                        {link.label}
-                      </span>
-                    </a>
-                  )
-                })}
-              </div>
+          <Reveal delay={100}>
+            <div className="h-full rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur transition-all hover:-translate-y-1 hover:border-amber-300/50">
+              <Phone className="h-7 w-7 text-amber-300" />
+              <p className="mt-5 text-xs font-semibold uppercase tracking-wider text-blue-200/60">Office phone</p>
+              <a href={PROFILE.phoneHref} className="mt-1 block font-display text-xl font-semibold hover:text-amber-300">
+                {PROFILE.phone}
+              </a>
+              <p className="mt-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-blue-200/60">
+                <DoorOpen className="h-4 w-4" /> Office
+              </p>
+              <p className="mt-1 font-semibold">{PROFILE.office.room}</p>
+              <p className="text-sm text-blue-100/70">Department of CSE</p>
             </div>
+          </Reveal>
 
-          </div>
+          <Reveal delay={200}>
+            <div className="h-full rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur transition-all hover:-translate-y-1 hover:border-amber-300/50">
+              <MapPin className="h-7 w-7 text-amber-300" />
+              <p className="mt-5 text-xs font-semibold uppercase tracking-wider text-blue-200/60">Address</p>
+              <div className="mt-1 space-y-0.5 text-sm text-blue-100/90">
+                <p className="font-semibold text-white">{PROFILE.office.room}</p>
+                {PROFILE.office.lines.map((l) => (
+                  <p key={l}>{l}</p>
+                ))}
+              </div>
+              <a href={PROFILE.office.mapUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-amber-300 hover:underline">
+                Open in Google Maps <ExternalLink className="h-3.5 w-3.5" />
+              </a>
+            </div>
+          </Reveal>
         </div>
+
+        <Reveal delay={250}>
+          <div className="mt-10 flex flex-wrap gap-3">
+            {PROFILE_LINKS.map((l) => (
+              <a
+                key={l.name}
+                href={l.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-medium transition-all hover:-translate-y-0.5 hover:border-amber-300 hover:text-amber-300"
+              >
+                {l.name}
+                <ExternalLink className="h-3.5 w-3.5 opacity-60" />
+              </a>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   )

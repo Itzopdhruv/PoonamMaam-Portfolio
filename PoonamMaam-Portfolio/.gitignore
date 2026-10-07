@@ -25,3 +25,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# raw photos (optimised copies live in public/gallery)
+WhatsApp Unknown*/

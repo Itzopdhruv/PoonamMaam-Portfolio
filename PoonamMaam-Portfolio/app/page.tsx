@@ -1,147 +1,102 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { Menu, X, GraduationCap, ChevronUp } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Menu, X, ChevronUp } from 'lucide-react'
 import HeroSection from '@/components/sections/hero'
 import AboutSection from '@/components/sections/about'
-import ContactSection from '@/components/sections/contact'
-import PublicationsSection from '@/components/sections/publications'
-import TeachingSection from '@/components/sections/teaching'
-import StudentsSection from '@/components/sections/students'
+import ResearchAreasSection from '@/components/sections/research-areas'
 import AchievementsSection from '@/components/sections/achievements'
+import GallerySection from '@/components/sections/gallery'
+import PublicationsSection from '@/components/sections/publications'
+import StudentsSection from '@/components/sections/students'
+import TeachingSection from '@/components/sections/teaching'
+import ContactSection from '@/components/sections/contact'
 import Footer from '@/components/sections/footer'
+import { NAV_ITEMS } from '@/lib/nav'
 
-const navItems = [
-  { name: 'About', href: '#about' },
-  { name: 'Publications', href: '#publications' },
-  { name: 'Teaching', href: '#teaching' },
-  { name: 'Students', href: '#students' },
-  { name: 'Achievements', href: '#achievements' },
-  { name: 'Contact', href: '#contact' },
-]
+function useScroll() {
+  const [y, setY] = useState(0)
+  const [progress, setProgress] = useState(0)
+  useEffect(() => {
+    const onScroll = () => {
+      setY(window.scrollY)
+      const max = document.documentElement.scrollHeight - window.innerHeight
+      setProgress(max > 0 ? window.scrollY / max : 0)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  return { y, progress }
+}
 
 function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState('')
+  const { y, progress } = useScroll()
+  const [open, setOpen] = useState(false)
+  const [active, setActive] = useState('')
+  const scrolled = y > 40
+  const current = y < 300 ? '' : active
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-
-      // Determine active section
-      const sections = navItems.map(item => item.href.replace('#', ''))
-      let current = ''
-
-      for (const section of sections) {
-        const element = document.getElementById(section)
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          if (rect.top <= 150 && rect.bottom > 150) {
-            current = section
-            break
-          }
-        }
-      }
-      setActiveSection(current)
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
+    const ids = NAV_ITEMS.map((n) => n.href.slice(1))
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => e.isIntersecting && setActive(e.target.id))
+      },
+      { rootMargin: '-45% 0px -50% 0px' }
+    )
+    ids.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+    return () => observer.disconnect()
   }, [])
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
-        ? 'bg-background/80 backdrop-blur-xl border-b border-border shadow-sm'
-        : 'bg-transparent'
-        }`}
-    >
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div
-              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 ${isScrolled
-                ? 'bg-gradient-to-br from-primary to-accent'
-                : 'bg-white/10 backdrop-blur-sm border border-white/20'
-                }`}
-            >
-              <GraduationCap
-                className={`w-5 h-5 transition-colors ${isScrolled ? 'text-white' : 'text-foreground'
-                  }`}
-              />
-            </div>
-            <div className="hidden sm:block">
-              <p
-                className={`font-display font-bold text-lg leading-tight transition-colors ${isScrolled ? 'text-foreground' : 'text-foreground'
-                  }`}
-              >
-                Dr. Poonam Rani
-              </p>
-              <p
-                className={`text-xs transition-colors ${isScrolled ? 'text-muted-foreground' : 'text-foreground/70'
-                  }`}
-              >
-                Associate Professor
-              </p>
-            </div>
-          </Link>
+    <nav className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled ? 'bg-[#071a33]/85 shadow-lg shadow-black/20 backdrop-blur-xl' : 'bg-transparent'}`}>
+      <div className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-gradient-to-r from-amber-400 via-orange-400 to-teal-400" style={{ transform: `scaleX(${progress})` }} />
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 md:h-20 lg:px-8">
+        <a href="#home" className="group flex items-center gap-3 text-white">
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 font-display text-lg font-bold text-[#071a33] transition-transform group-hover:rotate-6">
+            PR
+          </span>
+          <span className="hidden leading-tight sm:block">
+            <span className="block font-display text-lg font-bold">Dr. Poonam Rani</span>
+            <span className="block text-xs text-blue-100/70">Associate Professor · NSUT</span>
+          </span>
+        </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${activeSection === item.href.replace('#', '')
-                  ? 'text-primary bg-primary/10'
-                  : isScrolled
-                    ? 'text-foreground/70 hover:text-foreground hover:bg-muted'
-                    : 'text-foreground/80 hover:text-foreground hover:bg-white/10'
-                  }`}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
-
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`lg:hidden p-2 rounded-lg transition-colors ${isScrolled
-              ? 'hover:bg-muted text-foreground'
-              : 'hover:bg-white/10 text-foreground'
+        <div className="hidden items-center gap-1 lg:flex">
+          {NAV_ITEMS.map((n) => (
+            <a
+              key={n.href}
+              href={n.href}
+              className={`relative rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${
+                current === n.href.slice(1) ? 'bg-white/10 text-amber-300' : 'text-blue-100/80 hover:text-white'
               }`}
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+            >
+              {n.name}
+            </a>
+          ))}
         </div>
+
+        <button onClick={() => setOpen(!open)} className="rounded-lg p-2 text-white hover:bg-white/10 lg:hidden" aria-label="Toggle menu" aria-expanded={open}>
+          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
       </div>
 
-      {/* Mobile Navigation */}
-      <div
-        className={`lg:hidden overflow-hidden transition-all duration-300 ${mobileMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
-          }`}
-      >
-        <div className="bg-background/95 backdrop-blur-xl border-b border-border px-4 py-4">
-          <div className="flex flex-col gap-1">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`px-4 py-3 rounded-lg text-sm font-medium transition-all ${activeSection === item.href.replace('#', '')
-                  ? 'text-primary bg-primary/10'
-                  : 'text-foreground/70 hover:text-foreground hover:bg-muted'
-                  }`}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
+      <div className={`overflow-hidden transition-all duration-500 lg:hidden ${open ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}>
+        <div className="space-y-1 border-t border-white/10 bg-[#071a33]/95 px-4 py-4 backdrop-blur-xl">
+          {NAV_ITEMS.map((n) => (
+            <a
+              key={n.href}
+              href={n.href}
+              onClick={() => setOpen(false)}
+              className={`block rounded-xl px-4 py-3 text-sm font-medium ${current === n.href.slice(1) ? 'bg-white/10 text-amber-300' : 'text-blue-100/80'}`}
+            >
+              {n.name}
+            </a>
+          ))}
         </div>
       </div>
     </nav>
@@ -149,28 +104,16 @@ function Navbar() {
 }
 
 function ScrollToTop() {
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsVisible(window.scrollY > 500)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
+  const { y } = useScroll()
   return (
     <button
-      onClick={scrollToTop}
-      className={`fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent text-white shadow-lg shadow-primary/25 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
-        }`}
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      className={`fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-orange-500 text-[#071a33] shadow-lg shadow-amber-500/30 transition-all duration-300 hover:scale-110 ${
+        y > 600 ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-10 opacity-0'
+      }`}
       aria-label="Scroll to top"
     >
-      <ChevronUp className="w-6 h-6" />
+      <ChevronUp className="h-6 w-6" />
     </button>
   )
 }
@@ -180,13 +123,14 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <Navbar />
       <main>
-        {/* <p>hello</p> */}
         <HeroSection />
         <AboutSection />
-        <PublicationsSection />
-        <TeachingSection />
-        <StudentsSection />
+        <ResearchAreasSection />
         <AchievementsSection />
+        <GallerySection />
+        <PublicationsSection />
+        <StudentsSection />
+        <TeachingSection />
         <ContactSection />
       </main>
       <Footer />

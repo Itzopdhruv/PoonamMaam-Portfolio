@@ -1,194 +1,104 @@
 'use client'
 
-import { useScrollAnimation } from '@/hooks/use-scroll-animation'
-import { Brain, Blocks, Wifi, Network, Sparkles, BookOpen, ArrowRight } from 'lucide-react'
+import { Atom, Brain, Blocks, Wifi, Share2, Waves, type LucideIcon } from 'lucide-react'
+import { Reveal } from '@/components/fx/reveal'
+import { RESEARCH_AREAS } from '@/lib/profile'
 
-const ACCENT = '#0F4C81'
-const TEAL = '#2CA6A4'
+const STYLE: Record<string, { icon: LucideIcon; from: string; to: string; span: string }> = {
+  quantum: { icon: Atom, from: '#7c3aed', to: '#2563eb', span: 'md:col-span-2 md:row-span-2' },
+  ai: { icon: Brain, from: '#db2777', to: '#f59e0b', span: '' },
+  blockchain: { icon: Blocks, from: '#0d9488', to: '#2563eb', span: '' },
+  iot: { icon: Wifi, from: '#ea580c', to: '#eab308', span: '' },
+  sna: { icon: Share2, from: '#2563eb', to: '#06b6d4', span: '' },
+  soft: { icon: Waves, from: '#16a34a', to: '#0d9488', span: 'md:col-span-4' },
+}
 
-export default function ResearchAreasSection() {
-  const { ref, isVisible } = useScrollAnimation()
+function SpotlightCard({ area, big }: { area: (typeof RESEARCH_AREAS)[number]; big: boolean }) {
+  const s = STYLE[area.key]
+  const Icon = s.icon
 
-  const areas = [
-    {
-      icon: Brain,
-      title: 'Artificial Intelligence',
-      subtitle: 'Machine Learning & Intelligent Systems',
-      description:
-        'Research focused on machine learning algorithms, deep neural networks, and AI-driven systems for healthcare diagnostics, security analytics, and intelligent automation.',
-      technologies: ['Deep Learning', 'Neural Networks', 'Computer Vision', 'Natural Language Processing'],
-      publications: 12,
-    },
-    {
-      icon: Blocks,
-      title: 'Blockchain Technology',
-      subtitle: 'Distributed Ledger & Security',
-      description:
-        'Developing blockchain-based solutions for secure healthcare systems, supply chain management, rumor detection, and cognitive radio networks.',
-      technologies: ['Smart Contracts', 'Distributed Ledger Technology', 'Cryptography', 'Consensus Mechanisms'],
-      publications: 8,
-    },
-    {
-      icon: Wifi,
-      title: 'Internet of Things',
-      subtitle: 'Connected Systems & Edge Computing',
-      description:
-        'Designing IoT architectures for health monitoring, industrial applications, and smart city infrastructure with focus on security and operational efficiency.',
-      technologies: ['Sensor Networks', 'Edge Computing', '5G Networks', 'Industrial IoT'],
-      publications: 10,
-    },
-    {
-      icon: Network,
-      title: 'Social Network Analysis',
-      subtitle: 'Graph Theory & Community Detection',
-      description:
-        'Analyzing social network structures using fuzzy graphs, community detection algorithms, and relationship prediction models for intelligent recommendation systems.',
-      technologies: ['Graph Analysis', 'Fuzzy Logic', 'Link Prediction', 'Community Detection'],
-      publications: 9,
-    },
-    {
-      icon: Sparkles,
-      title: 'Soft Computing',
-      subtitle: 'Fuzzy Systems & Optimization',
-      description:
-        'Applying fuzzy logic, neural networks, and evolutionary algorithms to address complex optimization problems and develop intelligent decision-support systems.',
-      technologies: ['Fuzzy Logic', 'Genetic Algorithms', 'Neuro-Fuzzy Systems', 'Evolutionary Optimization'],
-      publications: 6,
-    },
-  ]
+  const onMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect()
+    e.currentTarget.style.setProperty('--x', `${e.clientX - r.left}px`)
+    e.currentTarget.style.setProperty('--y', `${e.clientY - r.top}px`)
+  }
 
   return (
-    <section
-      id="research"
-      className="relative py-20 md:py-28 bg-white"
-      ref={ref}
+    <div
+      onPointerMove={onMove}
+      className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-7 transition-transform duration-500 hover:-translate-y-1"
     >
-      {/* Top border */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gray-200" />
+      <div
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style={{ background: `radial-gradient(420px circle at var(--x) var(--y), ${s.from}40, transparent 60%)` }}
+      />
+      <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full opacity-20 blur-2xl transition-transform duration-700 group-hover:scale-150" style={{ background: `linear-gradient(135deg, ${s.from}, ${s.to})` }} />
 
-      <div className="container mx-auto px-4 md:px-8 max-w-6xl">
-        {/* Section Header */}
+      <div className="relative flex h-full flex-col">
         <div
-          className={`mb-14 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
+          className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-lg transition-transform duration-500 group-hover:rotate-[360deg]"
+          style={{ background: `linear-gradient(135deg, ${s.from}, ${s.to})` }}
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.15em] mb-3" style={{ color: TEAL }}>
-            Academic Focus
-          </p>
-          <h2
-            className="text-3xl md:text-4xl font-bold mb-4"
-            style={{ fontFamily: 'Georgia, "Times New Roman", serif', color: '#1a1a1a' }}
-          >
-            Research Interests
-          </h2>
-          <div className="w-12 h-0.5 mb-5" style={{ backgroundColor: ACCENT }} />
-          <p className="text-base text-gray-600 max-w-2xl leading-relaxed">
-            Interdisciplinary research spanning artificial intelligence, secure distributed systems, connected
-            technologies, and computational network analysis — with applications in healthcare, security, and
-            intelligent infrastructure.
-          </p>
+          <Icon className="h-6 w-6" />
         </div>
+        <p className="text-xs font-semibold uppercase tracking-[0.15em] text-blue-200/60">{area.subtitle}</p>
+        <h3 className={`mt-1 font-display font-bold text-white ${big ? 'text-3xl sm:text-4xl' : 'text-xl'}`}>{area.title}</h3>
+        <p className={`mt-3 leading-relaxed text-blue-100/70 ${big ? 'text-base' : 'text-sm'}`}>{area.description}</p>
 
-        {/* Cards Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {areas.map((area, index) => {
-            const Icon = area.icon
-            return (
-              <div
-                key={index}
-                className={`group transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                  } ${index === 4 ? 'lg:col-start-2' : ''}`}
-                style={{ transitionDelay: `${150 + index * 100}ms` }}
-              >
-                <div
-                  className="h-full bg-white border border-gray-200 rounded-lg overflow-hidden transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 flex flex-col"
-                  style={{ borderLeft: `3px solid ${ACCENT}` }}
-                >
-                  {/* Card Header */}
-                  <div className="p-6 pb-4">
-                    <div className="flex items-start justify-between mb-4">
-                      {/* Icon */}
-                      <div
-                        className="w-11 h-11 rounded-md flex items-center justify-center flex-shrink-0 transition-colors duration-300"
-                        style={{ backgroundColor: '#eef3f9' }}
-                      >
-                        <Icon
-                          className="w-5 h-5 transition-colors duration-300 group-hover:text-teal-600"
-                          style={{ color: ACCENT }}
-                        />
-                      </div>
-                      {/* Publication count */}
-                      <div className="text-right">
-                        <p className="text-xs text-gray-400 uppercase tracking-wider">Selected Publications</p>
-                        <p className="text-xl font-bold" style={{ color: ACCENT }}>
-                          {area.publications}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Title */}
-                    <h3
-                      className="text-lg font-bold mb-1 transition-colors duration-300 group-hover:text-blue-800"
-                      style={{ color: '#1a1a1a', fontFamily: 'Georgia, "Times New Roman", serif' }}
-                    >
-                      {area.title}
-                    </h3>
-
-                    {/* Subtitle */}
-                    <p className="text-xs font-medium mb-4 uppercase tracking-wider" style={{ color: TEAL }}>
-                      {area.subtitle}
-                    </p>
-
-                    {/* Description */}
-                    <p className="text-sm text-gray-600 leading-relaxed">
-                      {area.description}
-                    </p>
-                  </div>
-
-                  {/* Tags */}
-                  <div className="px-6 pb-4 mt-auto">
-                    <p className="text-xs text-gray-400 leading-relaxed">
-                      {area.technologies.join(' • ')}
-                    </p>
-                  </div>
-
-                  {/* View Publications link */}
-                  <div className="px-6 pb-5">
-                    <a
-                      href="#publications"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors duration-200 group/link"
-                      style={{ color: ACCENT }}
-                    >
-                      <span className="group-hover/link:underline">View Publications</span>
-                      <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/link:translate-x-1" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-
-        {/* Bottom Statistics */}
-        <div
-          className={`mt-14 pt-10 border-t border-gray-200 transition-all duration-700 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
-        >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {[
-              { value: '35+', label: 'Peer-Reviewed Publications' },
-              { value: '5', label: 'Major Research Areas' },
-              { value: '10+', label: 'Years of Academic Experience' },
-              { value: '15+', label: 'International Collaborations' },
-            ].map((stat, index) => (
-              <div key={index}>
-                <p className="text-3xl font-bold mb-1" style={{ color: ACCENT }}>
-                  {stat.value}
-                </p>
-                <p className="text-xs text-gray-500 uppercase tracking-wider leading-snug">{stat.label}</p>
-              </div>
+        {big && 'work' in area && (
+          <ul className="mt-6 space-y-2.5">
+            {(area.work as string[]).map((w) => (
+              <li key={w} className="flex gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-blue-100/80 transition-colors hover:border-violet-400/40 hover:bg-white/10">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-300" />
+                {w}
+              </li>
             ))}
+          </ul>
+        )}
+
+        {big && (
+          <div className="relative mt-auto flex justify-center pt-8" aria-hidden="true">
+            {/* Orbiting "qubits" */}
+            <div className="relative h-40 w-40">
+              <div className="absolute inset-0 rounded-full border border-violet-400/30 animate-spin-slow" />
+              <div className="absolute inset-4 rounded-full border border-blue-400/30 animate-spin-reverse" />
+              <div className="absolute inset-[38%] rounded-full bg-gradient-to-br from-violet-500 to-blue-500 shadow-[0_0_40px_rgba(124,58,237,0.7)] animate-pulse" />
+              <div className="absolute inset-0 animate-spin-slow">
+                <span className="absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-300 shadow-[0_0_12px_#fcd34d]" />
+              </div>
+              <div className="absolute inset-4 animate-spin-reverse">
+                <span className="absolute bottom-0 left-1/2 h-2.5 w-2.5 -translate-x-1/2 translate-y-1/2 rounded-full bg-teal-300 shadow-[0_0_12px_#5eead4]" />
+              </div>
+            </div>
           </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default function ResearchAreasSection() {
+  return (
+    <section id="research" className="relative overflow-hidden bg-[#0b2545] py-24 md:py-32">
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:48px_48px]" />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <Reveal>
+          <div className="mb-12 max-w-2xl">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">Research</p>
+            <h2 className="font-display text-4xl font-bold text-white sm:text-5xl">Areas of Research</h2>
+            <p className="mt-4 text-blue-100/70">
+              From quantum machine learning to blockchain-secured IoT, her work spans foundational methods and real-world
+              applications in healthcare, security and social networks.
+            </p>
+          </div>
+        </Reveal>
+
+        <div className="grid gap-5 md:grid-cols-4">
+          {RESEARCH_AREAS.map((a, i) => (
+            <Reveal key={a.key} delay={i * 80} className={STYLE[a.key].span}>
+              <SpotlightCard area={a} big={a.key === 'quantum'} />
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
