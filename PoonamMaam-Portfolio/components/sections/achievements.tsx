@@ -1,9 +1,9 @@
 'use client'
 
-import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { MapPin, Trophy, BookOpen, Mic2, Presentation, GraduationCap, type LucideIcon } from 'lucide-react'
 import { Reveal } from '@/components/fx/reveal'
+import FullPhoto from '@/components/fx/full-photo'
 import { HIGHLIGHTS } from '@/lib/profile'
 
 const ICONS: Record<string, LucideIcon> = {
@@ -62,15 +62,8 @@ export default function AchievementsSection() {
                   <Reveal from="right">
                     <article className="group flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl sm:flex-row">
                       {h.image && (
-                        <div className="relative h-52 shrink-0 overflow-hidden sm:h-auto sm:min-h-[220px] sm:w-72">
-                          <Image
-                            src={h.image}
-                            alt={h.title}
-                            fill
-                            sizes="(min-width: 640px) 288px, 90vw"
-                            style={{ objectPosition: h.pos }}
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                          />
+                        <div className="relative h-56 shrink-0 overflow-hidden sm:h-auto sm:min-h-[240px] sm:w-80">
+                          <FullPhoto src={h.image} alt={h.title} sizes="(min-width: 640px) 288px, 90vw" />
                         </div>
                       )}
                       <div className="flex flex-1 flex-col justify-center p-6 sm:p-7">

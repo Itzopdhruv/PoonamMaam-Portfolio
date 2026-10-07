@@ -50,7 +50,7 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,#071a33_95%)]" />
       </div>
 
-      <div className="mx-auto grid min-h-screen max-w-7xl items-center gap-14 px-4 pb-44 pt-28 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:pb-40">
+      <div className="mx-auto grid min-h-screen max-w-7xl items-center gap-14 px-4 pb-44 pt-28 sm:px-6 lg:grid-cols-[1fr_1fr] lg:px-8 lg:pb-40">
         {/* Text */}
         <div>
           <div className={enter} style={delay(0)}>
@@ -112,9 +112,9 @@ export default function HeroSection() {
         </div>
 
         {/* Photo */}
-        <div className={`relative mx-auto w-full max-w-sm lg:max-w-[420px] ${enter}`} style={delay(250)}>
+        <div className={`relative mx-auto w-full max-w-xl lg:max-w-[600px] ${enter}`} style={delay(250)}>
           <div className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-[conic-gradient(from_0deg,#fbbf24,#2ca6a4,#3b82f6,#fb923c,#fbbf24)] opacity-60 blur-2xl animate-spin-slow" />
-          <TiltCard className="aspect-[4/5]" max={12}>
+          <TiltCard className="aspect-[1600/1072]" max={10}>
             <div className="relative h-full w-full overflow-hidden rounded-[2rem] border border-white/20 shadow-2xl shadow-black/50">
               <Image
                 src="/gallery/hero-podium.webp"
@@ -123,18 +123,13 @@ export default function HeroSection() {
                 priority
                 quality={90}
                 sizes="(min-width: 1024px) 40vw, 90vw"
-                className="object-cover object-[50%_35%] scale-105"
+                className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#071a33]/80 via-transparent to-transparent" />
-              <div className="absolute bottom-5 left-5 right-5">
-                <p className="font-display text-xl font-semibold">{PROFILE.name}</p>
-                <p className="text-sm text-blue-100/80">{PROFILE.campus}</p>
-              </div>
             </div>
           </TiltCard>
 
           {/* Floating badges */}
-          <div className="absolute -left-10 top-16 hidden animate-float rounded-2xl border border-white/15 bg-[#071a33]/80 px-4 py-3 shadow-xl backdrop-blur-md sm:block">
+          <div className="absolute -left-8 -top-6 hidden animate-float rounded-2xl border border-white/15 bg-[#071a33]/80 px-4 py-3 shadow-xl backdrop-blur-md sm:block">
             <div className="flex items-center gap-2">
               <Award className="h-5 w-5 text-amber-300" />
               <div>
@@ -143,11 +138,11 @@ export default function HeroSection() {
               </div>
             </div>
           </div>
-          <div className="absolute -right-12 top-[62%] hidden animate-float rounded-2xl border border-white/15 bg-[#071a33]/80 px-4 py-3 shadow-xl backdrop-blur-md [animation-delay:-2s] sm:block">
+          <div className="absolute -right-6 -bottom-8 hidden animate-float rounded-2xl border border-white/15 bg-[#071a33]/80 px-4 py-3 shadow-xl backdrop-blur-md [animation-delay:-2s] sm:block">
             <p className="text-2xl font-bold text-amber-300">800+</p>
             <p className="text-xs text-blue-100/70">Citations · Google Scholar</p>
           </div>
-          <div className="absolute -top-5 right-6 hidden animate-float rounded-2xl border border-white/15 bg-[#071a33]/80 px-4 py-3 shadow-xl backdrop-blur-md [animation-delay:-4s] sm:block">
+          <div className="absolute -bottom-8 left-8 hidden animate-float rounded-2xl border border-white/15 bg-[#071a33]/80 px-4 py-3 shadow-xl backdrop-blur-md [animation-delay:-4s] sm:block">
             <div className="flex items-center gap-2 text-sm">
               <Quote className="h-4 w-4 text-teal-300" />
               Quantum · AI · Blockchain · IoT

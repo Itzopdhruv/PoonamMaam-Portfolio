@@ -26,7 +26,7 @@ export default function AboutSection() {
             <div className="relative mx-auto max-w-sm">
               <div className="absolute -inset-3 rotate-3 rounded-[2rem] bg-gradient-to-br from-amber-300 via-orange-300 to-rose-300 opacity-70" />
               <div className="absolute -inset-3 -rotate-2 rounded-[2rem] border-2 border-dashed border-[#0b2545]/30" />
-              <TiltCard className="aspect-[3/4]" max={8}>
+              <TiltCard className="aspect-[1044/1600]" max={8}>
                 <div className="relative h-full w-full overflow-hidden rounded-[1.75rem] shadow-2xl">
                   <Image src="/gallery/portrait.webp" alt="Portrait of Dr. Poonam Rani" fill quality={90} sizes="(min-width: 1024px) 30vw, 80vw" className="object-cover object-top" />
                 </div>

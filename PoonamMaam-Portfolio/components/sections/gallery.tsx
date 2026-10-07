@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight, X, Hand, Camera } from 'lucide-react'
 import { Reveal } from '@/components/fx/reveal'
+import FullPhoto from '@/components/fx/full-photo'
 import { GALLERY, type GalleryPhoto } from '@/lib/profile'
 
 
@@ -145,22 +146,8 @@ function Coverflow({ onOpen }: { onOpen: (i: number) => void }) {
               aria-label={isCenter ? `Open photo: ${p.caption}` : `Show photo: ${p.caption}`}
               tabIndex={ad > 1 ? -1 : 0}
             >
-              <Image
-                src={p.src}
-                alt={p.alt}
-                fill
-                sizes="(min-width: 1024px) 640px, (min-width: 640px) 480px, 280px"
-                draggable={false}
-                style={{ objectPosition: p.pos }}
-                className={`object-cover transition-transform duration-700 ${isCenter ? 'group-hover:scale-105' : ''}`}
-              />
+              <FullPhoto src={p.src} alt={p.alt} sizes="(min-width: 1024px) 640px, (min-width: 640px) 480px, 280px" />
               <div className="pointer-events-none absolute inset-0 bg-[#030b17] transition-opacity duration-700" style={{ opacity: isCenter ? 0 : Math.min(0.25 + ad * 0.15, 0.7) }} />
-              {isCenter && (
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent p-4 text-left sm:p-6">
-                  <p className="font-display text-base font-semibold text-white sm:text-xl">{p.caption}</p>
-                  <p className="text-xs text-white/75 sm:text-sm">{p.event}</p>
-                </div>
-              )}
             </button>
           )
         })}
@@ -173,8 +160,14 @@ function Coverflow({ onOpen }: { onOpen: (i: number) => void }) {
         </button>
       </div>
 
+      {/* Caption of the centre photo — kept outside the photo so nothing is covered */}
+      <div key={photo.src} className="mt-6 animate-fade-in px-4 text-center">
+        <p className="font-display text-lg font-semibold text-white sm:text-2xl">{photo.caption}</p>
+        <p className="text-sm text-blue-200/70">{photo.event}</p>
+      </div>
+
       {/* Progress */}
-      <div className="mx-auto mt-8 flex max-w-xl items-center justify-center gap-1.5 px-4" aria-hidden="true">
+      <div className="mx-auto mt-5 flex max-w-xl flex-wrap items-center justify-center gap-1.5 px-4" aria-hidden="true">
         {GALLERY.map((g, i) => (
           <button
             key={g.src}
@@ -184,8 +177,7 @@ function Coverflow({ onOpen }: { onOpen: (i: number) => void }) {
           />
         ))}
       </div>
-      <p className="sr-only" aria-live="polite">{photo.caption}</p>
-    </div>
+          </div>
   )
 }
 
@@ -202,9 +194,10 @@ function MarqueeRow({ photos, reverse, onOpen }: { photos: { p: GalleryPhoto; i:
             onClick={() => onOpen(i)}
             aria-hidden={k >= photos.length}
             tabIndex={k >= photos.length ? -1 : 0}
-            className={`group relative h-40 shrink-0 overflow-hidden rounded-xl ${p.tall ? 'w-28 sm:w-36' : 'w-60 sm:w-72'} border border-white/10 transition-all duration-500 hover:z-10 hover:-translate-y-2 hover:scale-105 hover:rotate-1 hover:shadow-2xl hover:shadow-amber-500/20 sm:h-48`}
+            className="group relative shrink-0 overflow-hidden rounded-xl border border-white/10 transition-all duration-500 [--mh:150px] hover:z-10 hover:-translate-y-2 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/20 sm:[--mh:200px]"
+            style={{ height: 'var(--mh)', width: `calc(var(--mh) * ${(p.w / p.h).toFixed(4)})` }}
           >
-            <Image src={p.src} alt={p.alt} fill sizes="300px" style={{ objectPosition: p.pos }} className="object-cover" />
+            <Image src={p.src} alt={p.alt} fill sizes="400px" className="object-contain" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
             <div className="absolute bottom-0 left-0 right-0 translate-y-full p-3 text-left transition-transform duration-500 group-hover:translate-y-0">
               <p className="text-sm font-semibold text-white">{p.caption}</p>
